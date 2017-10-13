@@ -1,0 +1,50 @@
+# Forked from https://aur.archlinux.org/packages/tesseract-git/
+pkgname=tesseract-bundle-git
+pkgver=2181.1b0379c2
+pkgrel=1
+pkgdesc="An OCR Engine that was developed at HP Labs between 1985 and 1995"
+arch=('i686' 'x86_64')
+url="https://github.com/tesseract-ocr/tesseract"
+license=('Apache')
+depends=('gcc-libs' 'libtiff' 'libpng' 'leptonica' 'giflib')
+optdepends=('pango: text2image' 'icu: text2image')
+makedepends=('git' 'autoconf-archive' 'pango' 'icu')
+provides=('tesseract')
+conflicts=('tesseract')
+options=('!libtool')
+install=tesseract.install
+source=(
+  'tesseract::git+https://github.com/tesseract-ocr/tesseract.git'
+  'https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata'
+  'https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/osd.traineddata'
+)
+sha256sums=(
+  'SKIP'
+  '1cb1468826191cc7d4158fe0a3014d3f5e3bbac618d754586afc86ddae8bcdae'
+  '9cf5d576fcc47564f11265841e5ca839001e7e6f38ff7f7aacf46d15a96b00ff'
+)
+
+pkgver() {
+  cd "$srcdir/tesseract"
+  echo $(git rev-list --count master).$(git rev-parse --short master)
+}
+
+build() {
+  cd "$srcdir/tesseract"
+
+  ./autogen.sh
+  ./configure --prefix=/usr
+  make
+  make training
+}
+
+package() {
+  cd "$srcdir/tesseract"
+
+  make DESTDIR="$pkgdir" install
+  make DESTDIR="$pkgdir" training-install
+
+  mkdir -p "$pkgdir/usr/share/tessdata"
+  install -m644 "${srcdir}/eng.traineddata" "${pkgdir}/usr/share/tessdata/eng.traineddata"
+  install -m644 "${srcdir}/osd.traineddata" "${pkgdir}/usr/share/tessdata/osd.traineddata"
+}
