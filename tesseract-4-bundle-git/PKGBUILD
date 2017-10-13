@@ -1,9 +1,9 @@
 #!/bin/bash
 # Forked from https://aur.archlinux.org/packages/tesseract-git/
 # shellcheck disable=SC2034,SC2154
-set -eu
+set -e
 pkgname=tesseract-bundle-git
-pkgver=2181.1b0379c2
+pkgver=20171013.1b0379c2
 pkgrel=1
 pkgdesc="An OCR Engine that was developed at HP Labs between 1985 and 1995"
 arch=('i686' 'x86_64')

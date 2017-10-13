@@ -1,0 +1,4 @@
+tesseract/
+src/
+pkg/
+*.traineddata
