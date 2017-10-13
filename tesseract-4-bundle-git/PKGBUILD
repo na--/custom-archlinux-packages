@@ -1,4 +1,7 @@
+#!/bin/bash
 # Forked from https://aur.archlinux.org/packages/tesseract-git/
+# shellcheck disable=SC2034,SC2154
+set -eu
 pkgname=tesseract-bundle-git
 pkgver=2181.1b0379c2
 pkgrel=1
@@ -26,7 +29,7 @@ sha256sums=(
 
 pkgver() {
   cd "$srcdir/tesseract"
-  echo $(git rev-list --count master).$(git rev-parse --short master)
+  echo "$(git rev-list --count master).$(git rev-parse --short master)"
 }
 
 build() {
