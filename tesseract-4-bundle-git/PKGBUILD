@@ -12,24 +12,26 @@ license=('Apache')
 depends=('gcc-libs' 'libtiff' 'libpng' 'leptonica' 'giflib')
 optdepends=('pango: text2image' 'icu: text2image')
 makedepends=('git' 'autoconf-archive' 'pango' 'icu')
-provides=('tesseract')
-conflicts=('tesseract')
+provides=('tesseract' 'tesseract-data-osd' 'tesseract-data-eng' 'tesseract-data-bul')
+conflicts=('tesseract' 'tesseract-data-osd' 'tesseract-data-eng' 'tesseract-data-bul')
 options=('!libtool')
 install=tesseract.install
 source=(
   'tesseract::git+https://github.com/tesseract-ocr/tesseract.git'
-  'https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata'
   'https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/osd.traineddata'
+  'https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata'
+  'https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/bul.traineddata'
 )
 sha256sums=(
   'SKIP'
-  '1cb1468826191cc7d4158fe0a3014d3f5e3bbac618d754586afc86ddae8bcdae'
   '9cf5d576fcc47564f11265841e5ca839001e7e6f38ff7f7aacf46d15a96b00ff'
+  '1cb1468826191cc7d4158fe0a3014d3f5e3bbac618d754586afc86ddae8bcdae'
+  'aea17ad60107f4dad3533c5e4688d2b5f67ef4d0f22b0d2975f112f493e47a24'
 )
 
 pkgver() {
   cd "$srcdir/tesseract"
-  echo "$(git rev-list --count master).$(git rev-parse --short master)"
+  echo "$(date '+%Y%m%d').$(git rev-parse --short master)"
 }
 
 build() {
@@ -48,6 +50,7 @@ package() {
   make DESTDIR="$pkgdir" training-install
 
   mkdir -p "$pkgdir/usr/share/tessdata"
-  install -m644 "${srcdir}/eng.traineddata" "${pkgdir}/usr/share/tessdata/eng.traineddata"
   install -m644 "${srcdir}/osd.traineddata" "${pkgdir}/usr/share/tessdata/osd.traineddata"
+  install -m644 "${srcdir}/eng.traineddata" "${pkgdir}/usr/share/tessdata/eng.traineddata"
+  install -m644 "${srcdir}/bul.traineddata" "${pkgdir}/usr/share/tessdata/bul.traineddata"
 }
