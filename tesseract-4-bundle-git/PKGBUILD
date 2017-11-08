@@ -3,7 +3,7 @@
 # shellcheck disable=SC2034,SC2154
 set -e
 pkgname=tesseract-bundle-git
-pkgver=20171013.1b0379c2
+pkgver=20171108.ad5ee184
 pkgrel=1
 pkgdesc="An OCR Engine that was developed at HP Labs between 1985 and 1995"
 arch=('i686' 'x86_64')
@@ -15,7 +15,6 @@ makedepends=('git' 'autoconf-archive' 'pango' 'icu')
 provides=('tesseract' 'tesseract-data-osd' 'tesseract-data-eng' 'tesseract-data-bul')
 conflicts=('tesseract' 'tesseract-data-osd' 'tesseract-data-eng' 'tesseract-data-bul')
 options=('!libtool')
-install=tesseract.install
 source=(
   'tesseract::git+https://github.com/tesseract-ocr/tesseract.git'
   'https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/osd.traineddata'
